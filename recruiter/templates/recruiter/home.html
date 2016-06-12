@@ -1,0 +1,120 @@
+{% extends 'recruiter/base.html' %}
+{% block content %}
+<div class="col-md-2"></div>
+<div class="col-md-8" style="margin-top:10px">
+    <div class="col-md-12">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    {% if user.is_authenticated %}
+                    <a class="navbar-brand" href="#">{{ user.username | capfirst }}</a>
+                    {% endif %}    
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'recruiter:logout' %}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'recruiter:login' %}">Login</a></li>
+                        {% endif %}
+
+
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-inline" method='post'>{% csrf_token %}
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <div class="input-group-addon">Select Filter</div>
+                            <select class="form-control"  name="filter_colomn">
+                              {% for p in fiterlist %}
+                                <option value='{{ p.0 }}' >{{ p.1 }}</option>
+                               {% endfor %}
+                               
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputAmount1">Location</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">Enter Key</div>
+                            <input type="text" name='key_name' class="form-control"  placeholder="Enter Key" value="{{ query }}">
+
+                        </div>
+                    </div>
+                    <button type="submit" name='submit' class="btn btn-primary">Search</button>
+                </form>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>S. No.</th>
+                            <th>Name Of Candidate</th>
+                            <th>U.G.Cource</th>
+                            <th>Current Location</th>
+                            <th>Designation</th>
+                            <th>CTC</th>
+                            <th>Detail</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if data %}
+                        {% for i in data %}
+
+                        <tr>
+                            <td>{{ forloop.counter }} </td>
+                            <td>{{i.name}}</td>
+                            <td>{{i.ug_cource}}</td>
+                            <td>{{i.current_location}}</td>
+                            <td>{{i.current_designation}}</td>
+                            <td>{{i.ctc}}</td>
+                            <td><a href="{% url 'recruiter:candidate_detail' i.id %}">Detail</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                    <center>No data Found</center>
+                    {% endif %}
+                    </tbody>
+                </table>
+             
+                <form method="post"> {% csrf_token %}
+                     <input type="hidden" name="filter_colomn" value="{{filter_colomn}}">
+                     <input type="hidden" name="key_name" value="{{ query }}">
+                    {% if total_downloads > 9 %} 
+                    <p style='color: red'>Today You Have Reached Maximum Download Limit.</p>
+                     {% else %}
+                      <button name="csv_genrate" class="btn btn-primary btn-sm">CSV</button>
+                     {% endif %}
+                </form>
+            
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $("select[name='filter_colomn']").val("{{ filter_colomn }}");
+    })
+</script>
+
+{% endblock %}
