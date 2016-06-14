@@ -1,0 +1,34 @@
+Area Of Improvements In Hrm
+
+1. Login Authentication
+
+Before User Login
+a. Forget Password // We can add this option at login panel
+After Login
+a. User can change password
+b. Able to change profile
+################
+2. Authentication To Filter Data
+
+1. If Admin login
+a. If admin login then,he can filter candidate data with all fields. 
+admin can filter data according to list elements.
+2. If User/Recruiter login
+a. If recruiter login then can filter data with some fields.
+Here if we set rule for recruiter and according to rule he can filter data from list items such as [skill,ctc,location]
+################
+3. Pagination
+
+If Data length is > 'n' so here we have to set pegination to avoid scrolling of page.
+n is any natural number to set page limit.
+################
+4. Back Button On Detail Page
+
+a. Candidate detail can show in pdf format so user can download it.
+################
+5. Candidate Model Validation
+
+1.Mobile No.
+2.Email
+
+   
