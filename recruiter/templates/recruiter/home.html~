@@ -88,8 +88,8 @@
                             <td>{{i.current_location}}</td>
                             <td>{{i.current_designation}}</td>
                             <td>{{i.ctc}}</td>
-                            <td>{{i.skill}}</td>
-                            <td><a href="{% url 'recruiter:candidate_detail' i.id %}">Detail</a></td>
+ <td>{{i.skill}}</td>
+                            <td><a href="{% url 'recruiter:candidate_detail' i.id %}">Detail</td>
                         </tr>
                         {% endfor %}
                         {% else %}

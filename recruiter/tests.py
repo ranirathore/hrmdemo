@@ -9,7 +9,7 @@ class CandidateTestCase(TestCase):
         self.factory = RequestFactory() #for url/view testing
         
         ##create Test candidate
-        testuser = {'name':'rani rathore', 'mobile':8269029702, 'resume':'No', 'email':'rani21rathore@gmail.com', 
+        testuser = {'name':'rani rathore', 'mobile':8260000000, 'resume':'No', 'email':'rani21rathore@gmail.com', 
                     'work_experience':2.9,'current_location':'Indore', 'corrected_location':'Indore',
                     'ctc':3.6, 'current_employer':'Shrideva Tech', 'current_designation':'Python Developer',
                     'skill':'Python, Php, Java Script, Django, Python', 'ug_cource':'BE', 'ug_institute':'SGSITS',
