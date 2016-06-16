@@ -4,6 +4,7 @@ from django.contrib import auth
 from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import render
 import datetime
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 #Home page, show after recruiter login 
@@ -14,6 +15,7 @@ def home(request):
     ##################
     filter_colomn = ""
     query = ""
+    ###### Filter according to user ########
     if request.user.username == 'admin':
         fiterlist = [('current_location', 'Location'),
                  ('nearest_city', 'City'),
@@ -26,7 +28,9 @@ def home(request):
                  ('nearest_city', 'City'),
                  ('skill', 'Skill'),
                  ('ctc', 'CTC'),]
+    ##############
     data = Candidate.objects.all()
+   
     if request.method == 'POST':
         filter_colomn = request.POST['filter_colomn']
         query = request.POST['key_name']
@@ -53,7 +57,18 @@ def home(request):
                         [getattr(res, field.get_attname_column()[0]) for field in Candidate._meta.fields ]
                     )
                 return response
-            
+    ####### For Pagination ########
+    paginator = Paginator(data, 4) # Show items on single page
+    page = request.GET.get('page')
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+       
+        data = paginator.page(1)
+    except EmptyPage:
+       
+        data = paginator.page(paginator.num_pages)
+    ###############         
     return render(request, 'recruiter/home.html', {'data':data, 
                                    'query':query, 'filter_colomn': filter_colomn,      
                                    'fiterlist':fiterlist,'total_downloads':total_downloads})
